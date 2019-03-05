@@ -342,19 +342,23 @@ class MappingBuilder {
 
 	protected static Class<?> getFieldType(java.lang.reflect.Field field) {
 
-		ResolvableType resolvableType = ResolvableType.forField(field);
-
-		if (resolvableType.isArray()) {
-			return resolvableType.getComponentType().getRawClass();
-		}
-
-		ResolvableType componentType = resolvableType.getGeneric(0);
-		if (Iterable.class.isAssignableFrom(field.getType())
-				&& componentType != ResolvableType.NONE) {
-			return componentType.getRawClass();
-		}
-
-		return resolvableType.getRawClass();
+//		ResolvableType resolvableType = ResolvableType.forField(field);
+//
+//		if (resolvableType.isArray()) {
+//			return resolvableType.getComponentType().getRawClass();
+//		}
+//
+//		ResolvableType componentType = resolvableType.getGeneric(0);
+//		if (Iterable.class.isAssignableFrom(field.getType())
+//				&& componentType != ResolvableType.NONE) {
+//			return componentType.getRawClass();
+//		}
+		
+//		return resolvableType.getRawClass();
+		return ClassTypeInformation.from(field.getDeclaringClass()) //
+				.getProperty(field.getName()) //
+				.getActualType() //
+				.getType();
 	}
 
 	private static boolean isAnyPropertyAnnotatedAsField(java.lang.reflect.Field[] fields) {
